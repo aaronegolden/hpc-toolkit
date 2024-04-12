@@ -1,0 +1,16 @@
+taskGroups:
+  - taskSpec:
+      runnables:
+        - script:
+            text: |
+              if [ $BATCH_NODE_INDEX = 0 ]; then
+                export PATH=$PATH:/usr/lib64/mpich/bin
+                mpirun --hostfile $BATCH_HOSTS_FILE -np 3 -ppn 1 hostname
+              fi
+    requireHostsFile: true
+    taskCount: 3
+    taskCountPerNode: 1
+logsPolicy:
+  destination: CLOUD_LOGGING
+labels:
+  goog-batch-job-group: "sample-node-pool"

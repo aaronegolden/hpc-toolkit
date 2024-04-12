@@ -1,0 +1,48 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+blueprint_name: hpc-batch
+
+vars:
+  project_id:  ## Set GCP Project ID Here ##
+  deployment_name: hpc-batch
+  region: us-central1
+  zone: us-central1-c
+
+# Documentation for each of the modules used below can be found at
+# https://github.com/GoogleCloudPlatform/hpc-toolkit/blob/main/modules/README.md
+
+deployment_groups:
+- group: primary
+  modules:
+
+  - id: batch-job
+    source: modules/scheduler/batch-job-template
+    settings:
+      runnable: |
+        yum install -y mpich
+        echo "node ready"
+      machine_type: n2-standard-2
+      task_count: 1
+      task_count_per_node: 1
+      mpi_mode: true
+      instance_image:
+        family: batch-centos-7-official
+        project: batch-custom-image
+      labels:
+        goog-batch-job-group: "sample-node-pool"
+        goog-batch-node-pool-max-idle-time: "60m"
+        goog-batch-node-pool-min-size: 1
+      submit: true
