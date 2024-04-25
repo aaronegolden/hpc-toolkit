@@ -75,6 +75,12 @@ variable "mpi_mode" {
   default     = false
 }
 
+variable "compact_placement" {
+  description = "Causes the batch job to require compact placement of its nodes"
+  type        = bool
+  default     = false
+}
+
 variable "log_policy" {
   description = <<-EOT
   Create a block to define log policy.

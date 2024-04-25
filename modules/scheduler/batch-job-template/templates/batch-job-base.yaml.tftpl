@@ -33,6 +33,16 @@ taskGroups:
 allocationPolicy:
     instances:
     - instanceTemplate: "${instance_template}"
+%{~ if compact_placement }
+    placement:
+        collocation: "COLLOCATED"
+%{~ endif }
+%{~ else }
+%{~ if compact_placement }
+allocationPolicy:
+    placement:
+        collocation: "COLLOCATED"
+%{~ endif }
 %{~ endif }
 %{~ if log_policy == "CLOUD_LOGGING" }
 logsPolicy:
