@@ -43,6 +43,13 @@ logsPolicy:
     destination: "PATH"
     logsPath: ## Add logging path here
 %{ endif }
+%{~ if length(dependency_jobs) > 0 ~}
+dependencies:
+    - items:
+%{ for index, job in dependency_jobs ~}
+        ${job.id}: "SUCCEEDED"
+%{ endfor ~}
+%{~ endif ~}
 %{~ if length(labels) > 0 ~}
 labels:
 %{ for k, v in labels ~}

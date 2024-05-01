@@ -37,6 +37,7 @@ locals {
       instance_template  = local.instance_template
       nfs_volumes        = local.native_batch_network_storage
       labels             = local.labels
+      dependency_jobs    = var.job_data
     }
   )
 

@@ -40,6 +40,14 @@ variable "job_id" {
   default     = null
 }
 
+variable "job_data" {
+  description = "List of jobs on which this job depends"
+  type = list(object({
+    id = string
+  }))
+  default = []
+}
+
 variable "job_filename" {
   description = "The filename of the generated job template file. Will default to `cloud-batch-<job_id>.json` if not specified"
   type        = string
